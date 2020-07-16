@@ -1,0 +1,5 @@
+name: NoVoxelMap
+version: "1.0"
+author: Hexagon
+main: work.fking.paper.novoxel.NoVoxelMap
+api-version: "1.16"
