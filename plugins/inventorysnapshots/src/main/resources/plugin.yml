@@ -1,0 +1,19 @@
+name: InventorySnapshots
+version: "1.0"
+author: Hexagon
+main: work.fking.corpa.invsnaps.InventorySnapshots
+api-version: "1.18"
+
+libraries:
+  - 'org.jdbi:jdbi3-core:3.25.0'
+  - 'org.jdbi:jdbi3-sqlite:3.25.0'
+
+permissions:
+  inventorysnapshots.commands:
+    default: op
+
+commands:
+  inventorysnapshots:
+    aliases: is
+    permission: inventorysnapshots.commands
+    description: Inventory snapshot related commands
