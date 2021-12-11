@@ -6,6 +6,7 @@ import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -54,7 +55,8 @@ public class InventorySnapshots extends JavaPlugin implements CommandExecutor, L
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         var player = event.getPlayer();
-        repository.save(Snapshot.from(player, SnapshotReason.PLAYER_DEATH));
+        var snapshot = Snapshot.from(player, SnapshotReason.PLAYER_DEATH);
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> repository.save(snapshot));
     }
 
     @Override
@@ -114,7 +116,8 @@ public class InventorySnapshots extends JavaPlugin implements CommandExecutor, L
             return;
         }
         // snapshot the player's current state, just in case...
-        repository.save(Snapshot.from(player, SnapshotReason.RESTORATION));
+        var currSnapshot = Snapshot.from(player, SnapshotReason.RESTORATION);
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> repository.save(currSnapshot));
         var itemStacks = snapshot.itemStacks();
         player.getInventory().setContents(itemStacks);
         sender.sendMessage(Component.text("Successfully restored the player's inventory to the snapshot.").color(PRIMARY_TEXT_COLOR));
